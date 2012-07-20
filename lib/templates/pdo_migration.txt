@@ -5,11 +5,29 @@ class Migration_@@timestamp@@ extends MpmMigration
 
     public function up(PDO &$pdo)
     {
+        //If you need a database besides jhu_epp uncomment the next line and 
+        //change jhu_pte_v3 as appropriate
+        //$this->selectDatabase($pdo, 'jhu_pte_v3');
+        
+        $query = "";
+        $pdo->exec($query);
+
+         //If you make any calls to selectDatabase() then uncomment this line
+         //$this->restoreDatabase()
         
     }
 
     public function down(PDO &$pdo)
     {
+        //If you need a database besides jhu_epp uncomment the next line and 
+        //change jhu_pte_v3 as appropriate
+        //$this->selectDatabase($pdo, 'jhu_pte_v3');
+        
+        $query = "";
+        $pdo->exec($query);
+
+         //If you make any calls to selectDatabase() then uncomment this line
+         //$this->restoreDatabase()
         
     }
 
