@@ -70,13 +70,14 @@ class MpmListController extends MpmController
 			$clw->addText("=========================================", 4);
 			foreach ($list as $obj)
 			{
+                $current = ($obj->is_current > 0 ? '*' : ' ');
 			    if (strlen($obj->id) > 1)
 			    {
-				    $clw->addText($obj->id . "\t" . $obj->timestamp, 6);
+				    $clw->addText($current . $obj->id . "\t" . $obj->timestamp, 5);
 			    }
 			    else
 			    {
-				    $clw->addText($obj->id . "\t\t" . $obj->timestamp, 6);
+				    $clw->addText($current . $obj->id . "\t\t" . $obj->timestamp, 5);
 			    }
 			}
 			$clw->addText(" ");
