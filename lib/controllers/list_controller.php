@@ -70,7 +70,7 @@ class MpmListController extends MpmController
 			$clw->addText("=========================================", 4);
 			foreach ($list as $obj)
 			{
-                $flag = ' ';
+                $flag = '  ';
                 
                 if ($obj->is_current > 0){
                     $flag = '* ';
