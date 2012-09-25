@@ -44,8 +44,8 @@ class MpmDetailsController extends MpmController {
         }
         
         $filename = MpmStringHelper::getFilenameFromTimestamp($migration->timestamp);
-        
-        if (!file_exists(MPM_DB_PATH . $filename)){
+        $location = MPM_DB_PATH . $filename;
+        if (!file_exists($location)){
             $this->_error = self::MIGRATION_FILE_MISSING;
             $this->_errorMessageReplacements[] = $filename;
             $this->_errorMessageReplacements[] = MPM_DB_PATH;
@@ -53,10 +53,31 @@ class MpmDetailsController extends MpmController {
         
         $classname = 'Migration_' . str_replace('.php', '', $filename);
         
-        require_once(MPM_DB_PATH . $filename);
+        require_once($location);
         $reflect = new ReflectionClass($classname);
         $comment = $this->_getMigrationComment($reflect);
-        var_dump($comment);
+        
+        $writer = MpmCommandLineWriter::getInstance();
+        
+        $writer->addText("Migration # $migrationId", 4);
+        $writer->addText(' ');
+        $writer->addText("Timestamp: {$migration->timestamp}", 4);
+        $writer->addText("Migration Location: $location", 4);
+        
+        if ($migration->active == 1){
+            $writer->addText("This migration has been applied", 4);
+        } else {
+            $writer->addText("This migration has not been applied", 4);
+        }
+        
+        if ($migration->is_current == 1){
+            $writer->addText("This migration is the current one", 4);
+        }
+        
+        $writer->addText(' ');
+        
+        $writer->addText("Migration Details: $comment", 4);
+        $writer->write();
     }
     
     public function displayHelp() {
