@@ -62,16 +62,17 @@ class MpmHelpController extends MpmController
 	{
 		$obj = MpmCommandLineWriter::getInstance();
 		$obj->addText('The Following Commands Are Available:');
-		$obj->addText('add    - add a new migration', 4);
-		$obj->addText('build  - builds the database', 4);
-		$obj->addText('down   - roll down to a previous migration', 4);
-		$obj->addText('help   - get more specific help about individual commands', 4);
-		$obj->addText('init   - initialize the migrations', 4);
-		$obj->addText('latest - roll up to the latest migration', 4);
-		$obj->addText('list   - list all migrations', 4);
-		$obj->addText('run    - runs a single migration', 4);
-		$obj->addText('status - show the current migration', 4);
-		$obj->addText('up     - roll up to a future migration', 4);
+		$obj->addText('add     - add a new migration', 4);
+		$obj->addText('build   - builds the database', 4);
+		$obj->addText('down    - roll down to a previous migration', 4);
+		$obj->addText('help    - get more specific help about individual commands', 4);
+		$obj->addText('init    - initialize the migrations', 4);
+		$obj->addText('latest  - roll up to the latest migration', 4);
+		$obj->addText('list    - list all migrations', 4);
+        $obj->addText('details - show details of a migration', 4);
+		$obj->addText('run     - runs a single migration', 4);
+		$obj->addText('status  - show the current migration', 4);
+		$obj->addText('up      - roll up to a future migration', 4);
 		$obj->addText(' ');
 		
 		$obj->addText('For specific help for an individual command, type:');
