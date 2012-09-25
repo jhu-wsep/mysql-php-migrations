@@ -52,6 +52,17 @@ abstract class MpmController
 		}
 	}
 	
+    protected function _parseArgs()
+    {
+        $tmp = array();
+        for ($i = 0; $i < sizeof($this->arguments); $i += 2){
+            $argName = $this->arguments[$i];
+            $tmp[$argName] = $this->arguments[$i + 1];
+        }
+        
+        $this->arguments = $tmp;
+    }
+    
 	/**
 	 * Determines what action should be performed and takes that action.
 	 *
