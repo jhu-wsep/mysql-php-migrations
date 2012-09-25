@@ -44,7 +44,6 @@ class MpmDetailsController extends MpmController {
         }
         
         $filename = MpmStringHelper::getFilenameFromTimestamp($migration->timestamp);
-        $classname = 'Migration_' . str_replace('.php', '', $filename);
         
         if (!file_exists(MPM_DB_PATH . $filename)){
             $this->_error = self::MIGRATION_FILE_MISSING;
@@ -52,6 +51,12 @@ class MpmDetailsController extends MpmController {
             $this->_errorMessageReplacements[] = MPM_DB_PATH;
         }
         
+        $classname = 'Migration_' . str_replace('.php', '', $filename);
+        
+        require_once(MPM_DB_PATH . $filename);
+        $reflect = new ReflectionClass($classname);
+        $comment = $this->_getMigrationComment($reflect);
+        var_dump($comment);
     }
     
     public function displayHelp() {
@@ -67,6 +72,29 @@ class MpmDetailsController extends MpmController {
 		$obj->addText('Example:');
 		$obj->addText('./migrate.php details -m 14', 4);
 		$obj->write();
+    }
+    
+    private function _getMigrationComment($reflection)
+    {
+        $lines = explode(PHP_EOL, $reflection->getDocComment());
+        $comment = '';
+                
+        for ($i = 1; $i < sizeof($lines); $i++){
+            $line = preg_replace('/^\s+\*\s+/', '', $lines[$i]); // Trim the left side
+            
+            if (strpos($line, '@migration') === 0){
+                $comment = trim(substr($line, 10));
+            } else if (strpos($line, '@') === 0) {
+                continue;
+            } else if (strpos($line, '*/')) {
+                continue;
+            } else {
+                $comment .= ' ' . trim($line);
+            }
+            
+        }
+       
+        return $comment;
     }
     
     private function _isErrorInArgs()
