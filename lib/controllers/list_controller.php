@@ -57,7 +57,7 @@ class MpmListController extends MpmController
 		$total = MpmListHelper::getTotalMigrations();
 		$total_pages = ceil($total / $per_page);
 		$clw = MpmCommandLineWriter::getInstance();
-		
+        $latest = MpmMigrationHelper::getCurrentMigrationTimestamp();
 		if ($total == 0)
 		{
 			$clw->addText('No migrations exist.');
@@ -70,14 +70,21 @@ class MpmListController extends MpmController
 			$clw->addText("=========================================", 4);
 			foreach ($list as $obj)
 			{
-                $current = ($obj->is_current > 0 ? '*' : ' ');
+                $flag = ' ';
+                
+                if ($obj->is_current > 0){
+                    $flag = '* ';
+                } else if ($latest && $latest > $obj->timestamp && $obj->active == 0){
+                    $flag = '- ';
+                }
+                
 			    if (strlen($obj->id) > 1)
 			    {
-				    $clw->addText($current . $obj->id . "\t" . $obj->timestamp, 5);
+				    $clw->addText($flag . $obj->id . "\t" . $obj->timestamp, 4);
 			    }
 			    else
 			    {
-				    $clw->addText($current . $obj->id . "\t\t" . $obj->timestamp, 5);
+				    $clw->addText($flag . $obj->id . "\t\t" . $obj->timestamp, 4);
 			    }
 			}
 			$clw->addText(" ");
