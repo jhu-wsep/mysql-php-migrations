@@ -23,6 +23,9 @@ class MpmDetailsController extends MpmController {
     
     private $_errorMessageReplacements = array();
     
+    /**
+     * Collects and prints details about the specified migration.
+     */
     public function doAction()
 	{
         $this->_parseArgs();
@@ -80,6 +83,9 @@ class MpmDetailsController extends MpmController {
         $writer->write();
     }
     
+    /**
+     * Write command help to the output. 
+     */
     public function displayHelp() {
         $obj = MpmCommandLineWriter::getInstance();
 		$obj->addText('./migrate.php details [-m migration #]');
@@ -95,6 +101,12 @@ class MpmDetailsController extends MpmController {
 		$obj->write();
     }
     
+    /**
+     * Grabs and parses the migration classes docblock comment using reflection
+     * to find an @migration tag.
+     * 
+     * @return string The text of the @migration tag from the migration's docblock
+     */
     private function _getMigrationComment($reflection)
     {
         $lines = explode(PHP_EOL, $reflection->getDocComment());
@@ -118,6 +130,12 @@ class MpmDetailsController extends MpmController {
         return $comment;
     }
     
+    /**
+     * Checks the CLI arguments for specific errors. Sets the appropriate error
+     * conditions if an error occured.
+     * 
+     * @return boolean true on error
+     */
     private function _isErrorInArgs()
     {
         if (!array_key_exists('-m', $this->arguments)){
@@ -132,6 +150,12 @@ class MpmDetailsController extends MpmController {
         }
     }
     
+    /**
+     * Helper for printing error messages
+     * 
+     * @todo Move this up to the MpmController class so other controllers can
+     * take advantage of it.
+     */
     private function _printError()
     {
         $writer = MpmCommandLineWriter::getInstance();

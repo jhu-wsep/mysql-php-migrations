@@ -52,6 +52,21 @@ abstract class MpmController
 		}
 	}
 	
+    /**
+     * Naieve parser for flag+option style arguments. Expects pairs of 
+     * [argument value] after the command. Creates an associative array of the
+     * option values keyed by argument name.
+     * 
+     * Example:
+     * ./migrate.php command -m 1 -b true
+     * Will result in:
+     * array(
+     *  '-m' => 1,
+     *  '-b' => 'true'
+     * );
+     * 
+     * Overwrites this->arguments with the results.
+     */
     protected function _parseArgs()
     {
         $tmp = array();
