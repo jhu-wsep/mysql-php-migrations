@@ -52,6 +52,8 @@ class MpmDetailsController extends MpmController {
             $this->_error = self::MIGRATION_FILE_MISSING;
             $this->_errorMessageReplacements[] = $filename;
             $this->_errorMessageReplacements[] = MPM_DB_PATH;
+            $this->_printError();
+            return;
         }
         
         $classname = 'Migration_' . str_replace('.php', '', $filename);
