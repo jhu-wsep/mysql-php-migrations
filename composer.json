@@ -1,0 +1,9 @@
+{
+    "name": "jhu-wsep/mysql-php-migrations",
+    "version": "2.1.4",
+    "require": {
+        "php": ">=5.3.2",
+        "ext-pdo": "*"
+    },
+    "bin": ["migration.php"]
+}
