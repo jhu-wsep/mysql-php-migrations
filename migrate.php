@@ -9,14 +9,12 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php  The New BSD License
  * @link       http://code.google.com/p/mysql-php-migrations/
  */
-
 // we want to see any errors
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 // fix date issues
-if (function_exists('date_default_timezone_set'))
-{
+if (function_exists('date_default_timezone_set')) {
     date_default_timezone_set("UTC");
 }
 
@@ -33,11 +31,9 @@ define('MPM_VERSION', '2.1.8');
 /**
  * Include the init script.
  */
-require_once(MPM_PATH . '/lib/init.php');
+require_once(MPM_PATH.'/lib/init.php');
 
 // get the proper controller, do the action, and exit the script
 $obj = MpmControllerFactory::getInstance($argv);
 $obj->doAction();
 exit;
-
-?>
