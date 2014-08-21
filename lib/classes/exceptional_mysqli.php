@@ -31,13 +31,13 @@ class ExceptionalMysqli extends mysqli
     public function __construct()
     {
         $args = func_get_args();
-        eval("parent::__construct(" . join(',', array_map('MpmStringHelper::addSingleQuotes', $args)) . ");");
-        if ($this->connect_errno)
-        {
+        eval("parent::__construct(".join(',',
+                array_map('MpmStringHelper::addSingleQuotes', $args)).");");
+        if ($this->connect_errno) {
             throw new MpmDatabaseConnectionException($this->connect_error);
         }
     }
-    
+
     /**
      * Wrapper for the mysqli::query method.
      *
@@ -51,13 +51,12 @@ class ExceptionalMysqli extends mysqli
     public function query($query, $resultMode = MYSQLI_STORE_RESULT)
     {
         $result = parent::query($query, $resultMode);
-        if ($this->errno)
-        {
+        if ($this->errno) {
             throw new MpmMalformedQueryException($this->error);
         }
         return $result;
     }
-    
+
     /**
      * Turns off auto commit.
      *
@@ -80,8 +79,4 @@ class ExceptionalMysqli extends mysqli
     {
         return $this->query($sql);
     }
-
 }
-
-
-?>

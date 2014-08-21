@@ -36,4 +36,3 @@ class MpmControllerFactory
         return $obj;
     }
 }
-

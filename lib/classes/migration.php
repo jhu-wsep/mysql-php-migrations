@@ -17,27 +17,26 @@
 abstract class MpmMigration
 {
     private $_databaseChanged = false;
-    
     private $_origDatabase;
-    
-	/**
-	 * Migrates the database up.
-	 * 
-	 * @param PDO $pdo a PDO object
-	 *
-	 * @return void
-	 */
-	abstract public function up(PDO &$pdo);
-	
-	/** 
-	 * Migrates down (reverses changes made by the up method).
-	 *
-	 * @param PDO $pdo a PDO object
-	 *
-	 * @return void
-	 */
-	abstract public function down(PDO &$pdo);
-    
+
+    /**
+     * Migrates the database up.
+     * 
+     * @param PDO $pdo a PDO object
+     *
+     * @return void
+     */
+    abstract public function up(PDO &$pdo);
+
+    /**
+     * Migrates down (reverses changes made by the up method).
+     *
+     * @param PDO $pdo a PDO object
+     *
+     * @return void
+     */
+    abstract public function down(PDO &$pdo);
+
     /**
      * Use this method to select a different database from the one specified in the migration.php database config file
      * 
@@ -46,31 +45,28 @@ abstract class MpmMigration
      */
     protected function selectDatabase(PDO $pdo, $database_name)
     {
-        if ( !$this->_databaseChanged ) {
+        if (!$this->_databaseChanged) {
             $stmt = $pdo->prepare("SELECT DATABASE()");
             $stmt->execute();
-            $row = $stmt->fetch();
-            
+            $row  = $stmt->fetch();
+
             $this->_origDatabase = $row[0];
         }
-        
-        $query = "USE " . $database_name;
+
+        $query = "USE ".$database_name;
         $pdo->exec($query);
-        
+
         $this->_databaseChanged = true;
-        
     }
-    
+
     /**
      * Use this method to restore PDO to the original database (so that migration.php won't break)
      * @param PDO $pdo 
      */
     public function restoreDatabase(PDO $pdo)
     {
-        if ( $this->_databaseChanged ) {
+        if ($this->_databaseChanged) {
             $this->selectDatabase($pdo, $this->_origDatabase);
         }
-        
     }
-    
 }
