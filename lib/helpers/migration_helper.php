@@ -36,15 +36,17 @@ class MpmMigrationHelper
         $obj->beginTransaction();
         try
         {
-	        $obj->exec($sql1);
-	        $obj->exec($sql2);
+            $obj->exec('SET SQL_SAFE_UPDATES = 0');
+            $obj->exec($sql1);
+            $obj->exec($sql2);
+            $obj->exec('SET SQL_SAFE_UPDATES = 1');
         }
         catch (Exception $e)
         {
-	        $obj->rollback();
-	        echo "\n\tQuery failed!";
-	        echo "\n\t--- " . $e->getMessage();
-	        exit;
+            $obj->rollback();
+            echo "\n\tQuery failed!";
+            echo "\n\t--- " . $e->getMessage();
+            exit;
         }
         $obj->commit();
     }
