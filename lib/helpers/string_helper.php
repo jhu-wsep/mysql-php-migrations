@@ -36,7 +36,7 @@ class MpmStringHelper
 		}
 		$timestamp = $t[0] . '-' . $t[1] . '-' . $t[2] . 'T' . $t[3] . ':' . $t[4] . ':' . $t[5];
 		// validate the date
-		if (false === checkdate($t[1], $t[2], $t[0]))
+		if (false === checkdate((int) $t[1], (int) $t[2], (int) $t[0]))
 		{
 			return null;
 		}
